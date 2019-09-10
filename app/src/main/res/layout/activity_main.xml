@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,13 +21,13 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnA"
+                android:id="@+id/product"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_weight="1"
                 android:backgroundTint="#fff"
                 android:drawableTop="@drawable/ic_add"
-                android:text="Produto" />
+                android:text="@string/product" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnB"
@@ -37,33 +36,11 @@
                 android:layout_weight="1"
                 android:backgroundTint="#fff"
                 android:drawableTop="@drawable/ic_storage"
-                android:text="Estoque" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnC"
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_weight="1"
-                android:backgroundTint="#fff"
-                android:text="c" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnD"
-                android:layout_width="0dp"
-                android:layout_height="150dp"
-                android:layout_weight="1"
-                android:backgroundTint="#fff"
-                android:text="d" />
+                android:text="@string/stock" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 </ScrollView>
 
