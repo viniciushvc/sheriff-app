@@ -1,6 +1,7 @@
 package com.vs.sheriff;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import android.os.Bundle;
@@ -12,7 +13,7 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
 
     private TextInputLayout edtNome;
     private TextInputLayout edtCodigo;
-    private TextInputLayout btnSalvar;
+    private AppCompatButton btnSalvar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
