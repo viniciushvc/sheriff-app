@@ -1,13 +1,11 @@
-package com.vs.sheriff;
+package com.vs.sheriff.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.AppCompatEditText;
-
 import android.os.Bundle;
 import android.view.View;
-
 import com.google.android.material.textfield.TextInputLayout;
+import com.vs.sheriff.R;
 
 public class ProductActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -71,6 +69,6 @@ public class ProductActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private boolean salvaInformacoes() {
-        return true;
+        return false;
     }
 }

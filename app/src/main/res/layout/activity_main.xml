@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
     <androidx.appcompat.widget.LinearLayoutCompat
 
@@ -13,7 +13,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        tools:context=".MainActivity">
+        tools:context=".ui.activity.MainActivity">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -27,7 +32,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="#fff"
                 android:drawableTop="@drawable/ic_add"
-                android:text="@string/product" />
+                android:text="@string/productEntity" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnB"

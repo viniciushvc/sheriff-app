@@ -44,6 +44,8 @@
             android:id="@+id/btnSalvar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="#4caf50"
+            android:textColor="#ffffff"
             android:text="@string/save" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
