@@ -1,14 +1,16 @@
-package com.vs.sheriff.model.entity;
+package com.vs.sheriff.controller.database_room.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "product")
 public class ProductEntity {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private Long id;
 
     @ColumnInfo(name = "name")
     private String name;
@@ -16,11 +18,11 @@ public class ProductEntity {
     @ColumnInfo(name = "barcode")
     private String barcode;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

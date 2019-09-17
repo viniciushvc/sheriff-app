@@ -1,13 +1,15 @@
 package com.vs.sheriff.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
 import com.vs.sheriff.R;
 
-public class MainActivity extends AppCompatActivity {
+public class Main extends AppCompatActivity {
 
     private Button product;
 
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent Product = new Intent(MainActivity.this, ProductActivity.class);
+                Intent Product = new Intent(Main.this, ListProduct.class);
                 startActivity(Product);
             }
         });
