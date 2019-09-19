@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import com.vs.sheriff.controller.database_room.dao.ProductDao;
 import com.vs.sheriff.controller.database_room.entity.ProductEntity;
 
-@Database(entities = {ProductEntity.class}, version = 1)
+@Database(entities = {ProductEntity.class}, version = 1, exportSchema = false)
 public abstract class DatabaseRoom extends RoomDatabase {
     private static final String DATABASE_NAME = "sheriff";
 

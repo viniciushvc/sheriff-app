@@ -1,6 +1,5 @@
 package com.vs.sheriff.ui.activity;
 
-import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,9 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -24,11 +21,15 @@ import com.vs.sheriff.ui.activity.dialogs.PopupInformacao;
 public class NewProduct extends AppCompatActivity {
     public Handler handler = new Handler();
 
+    private TextView tvId;
+
     public static final String EXTRA_CODIGO = "";
 
-    private TextView tvId;
-    private TextInputLayout tilNome;
-    private TextInputEditText etNome;
+    private TextInputLayout tilName;
+    private TextInputEditText etName;
+
+    private TextInputLayout tilBarcode;
+    private TextInputEditText etBarcode;
 
     private ProductEntity productEntity;
 
@@ -40,7 +41,7 @@ public class NewProduct extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-//                Long id = getIntent().getLongExtra(tvId.toString(), -1);
+                Long codigo = getIntent().getLongExtra(EXTRA_CODIGO, -1);
 
                 productEntity = DatabaseRoom.getInstance(getApplicationContext()).productDao().selectById(1L);
 
@@ -55,13 +56,15 @@ public class NewProduct extends AppCompatActivity {
     }
 
     private void initComponents() {
-        tilNome = findViewById(R.id.tilNome);
-        etNome = findViewById(R.id.etNome);
+        tilName = findViewById(R.id.tilName);
+        etName = findViewById(R.id.etName);
+        tilBarcode = findViewById(R.id.tilBarcode);
+        etBarcode = findViewById(R.id.etBarcode);
 
         FloatingActionButton fabConfirmar = findViewById(R.id.fabConfirmar);
         FloatingActionButton fabDeletar = findViewById(R.id.fabDeletar);
 
-        etNome.addTextChangedListener(new TextWatcher() {
+        etName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -74,7 +77,7 @@ public class NewProduct extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                tilNome.setError(null);
+                tilName.setError(null);
             }
         });
 
@@ -107,8 +110,13 @@ public class NewProduct extends AppCompatActivity {
     private boolean validaTela() {
         boolean retorno = true;
 
-        if (etNome.getText().toString().trim().length() == 0) {
-            tilNome.setError("Informe o nome da universidade");
+        if (etName.getText().toString().trim().length() == 0) {
+            tilName.setError("Informe o nome");
+            retorno = false;
+        }
+
+        if (etBarcode.getText().toString().trim().length() == 0) {
+            tilBarcode.setError("Informe o código de barras");
             retorno = false;
         }
 
@@ -125,6 +133,9 @@ public class NewProduct extends AppCompatActivity {
                     ProductEntity productEntity = new ProductEntity();
                     preencheValores(productEntity);
                     try {
+
+                        productDao.insert(productEntity);
+
                         fechaTelaSucesso();
                     } catch (SQLiteConstraintException ex) {
                         PopupInformacao.mostraMensagem(NewProduct.this, handler, "Código já existe");
@@ -148,7 +159,9 @@ public class NewProduct extends AppCompatActivity {
     }
 
     private void preencheValores(ProductEntity productEntity) {
-        productEntity.setName(etNome.getText().toString().trim());
+        productEntity.setId(1L);
+        productEntity.setName(etName.getText().toString().trim());
+        productEntity.setBarcode(etBarcode.getText().toString().trim());
     }
 
     private void fechaTelaSucesso() {
