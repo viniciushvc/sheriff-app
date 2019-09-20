@@ -29,7 +29,7 @@ public class ProductAdapter extends ArrayAdapter<ProductEntity>
         Holder holder;
         if(convertView == null)
         {
-            convertView = inflater.inflate(R.layout.activity_list_product, null);
+            convertView = inflater.inflate(R.layout.item_product, null);
             holder = new Holder();
             convertView.setTag(holder);
             holder.tvName = convertView.findViewById(R.id.tvName);

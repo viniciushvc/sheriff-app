@@ -8,7 +8,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -36,6 +38,10 @@ public class NewProduct extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // antes do setContentView não fica percepitivel
+
+
         setContentView(R.layout.activity_new_product);
 
         AsyncTask.execute(new Runnable() {
@@ -43,7 +49,7 @@ public class NewProduct extends AppCompatActivity {
             public void run() {
                 Long codigo = getIntent().getLongExtra(EXTRA_CODIGO, -1);
 
-                productEntity = DatabaseRoom.getInstance(getApplicationContext()).productDao().selectById(1L);
+                productEntity = DatabaseRoom.getInstance(getApplicationContext()).productDao().selectById(codigo);
 
                 handler.post(new Runnable() {
                     @Override
@@ -89,7 +95,7 @@ public class NewProduct extends AppCompatActivity {
         });
 
         if (productEntity == null)
-            fabDeletar.setEnabled(false);
+            fabDeletar.setVisibility(View.INVISIBLE);
         else {
             fabDeletar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -97,6 +103,10 @@ public class NewProduct extends AppCompatActivity {
                     deleteRegistroFechaTela();
                 }
             });
+        }
+
+        if (productEntity != null) {
+            carregaValores();
         }
     }
 
@@ -131,9 +141,8 @@ public class NewProduct extends AppCompatActivity {
 
                 if (productEntity == null) {
                     ProductEntity productEntity = new ProductEntity();
-                    preencheValores(productEntity);
+                    preencheValores();
                     try {
-
                         productDao.insert(productEntity);
 
                         fechaTelaSucesso();
@@ -141,7 +150,8 @@ public class NewProduct extends AppCompatActivity {
                         PopupInformacao.mostraMensagem(NewProduct.this, handler, "Código já existe");
                     }
                 } else {
-                    preencheValores(productEntity);
+                    preencheValores();
+                    productDao.update(productEntity);
 
                     fechaTelaSucesso();
                 }
@@ -158,8 +168,7 @@ public class NewProduct extends AppCompatActivity {
         });
     }
 
-    private void preencheValores(ProductEntity productEntity) {
-        productEntity.setId(1L);
+    private void preencheValores() {
         productEntity.setName(etName.getText().toString().trim());
         productEntity.setBarcode(etBarcode.getText().toString().trim());
     }
@@ -172,4 +181,10 @@ public class NewProduct extends AppCompatActivity {
             }
         });
     }
+
+    private void carregaValores() {
+        etName.setText(productEntity.getName());
+        etBarcode.setText(productEntity.getBarcode());
+    }
+
 }
