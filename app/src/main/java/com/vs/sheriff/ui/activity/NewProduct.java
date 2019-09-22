@@ -4,10 +4,7 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,38 +15,30 @@ import com.vs.sheriff.R;
 import com.vs.sheriff.controller.database_room.DatabaseRoom;
 import com.vs.sheriff.controller.database_room.dao.ProductDao;
 import com.vs.sheriff.controller.database_room.entity.ProductEntity;
-import com.vs.sheriff.ui.activity.dialogs.PopupInformacao;
+import com.vs.sheriff.ui.dialogs.PopupInfo;
 
 public class NewProduct extends AppCompatActivity {
     public Handler handler = new Handler();
 
-    private TextView tvId;
-
-    public static final String EXTRA_CODIGO = "";
-
-    private TextInputLayout tilName;
-    private TextInputEditText etName;
-
-    private TextInputLayout tilBarcode;
-    private TextInputEditText etBarcode;
-
     private ProductEntity productEntity;
+
+    public static final String ID = "";
+
+    private TextInputLayout ilName;
+    private TextInputEditText etName;
+    private TextInputLayout ilBarcode;
+    private TextInputEditText etBarcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // antes do setContentView não fica percepitivel
-
 
         setContentView(R.layout.activity_new_product);
 
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                Long codigo = getIntent().getLongExtra(EXTRA_CODIGO, -1);
-
-                productEntity = DatabaseRoom.getInstance(getApplicationContext()).productDao().selectById(codigo);
+                findProduct();
 
                 handler.post(new Runnable() {
                     @Override
@@ -61,119 +50,114 @@ public class NewProduct extends AppCompatActivity {
         });
     }
 
+    private void findProduct() {
+        Long codigo = getIntent().getLongExtra(ID, -1);
+
+        productEntity = DatabaseRoom.getInstance(getApplicationContext()).productDao().selectById(codigo);
+    }
+
     private void initComponents() {
-        tilName = findViewById(R.id.tilName);
+        ilName = findViewById(R.id.ilName);
         etName = findViewById(R.id.etName);
-        tilBarcode = findViewById(R.id.tilBarcode);
-        etBarcode = findViewById(R.id.etBarcode);
+        ilBarcode = findViewById(R.id.ilBarcode);
+        etBarcode = findViewById(R.id.etPassword);
 
-        FloatingActionButton fabConfirmar = findViewById(R.id.fabConfirmar);
-        FloatingActionButton fabDeletar = findViewById(R.id.fabDeletar);
-
-        etName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                tilName.setError(null);
-            }
-        });
+        FloatingActionButton fabConfirmar = findViewById(R.id.fbOK);
+        FloatingActionButton fabDeletar = findViewById(R.id.fbDelete);
 
         fabConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmaTela();
+                confirm();
             }
         });
 
-        if (productEntity == null)
+        if (productEntity == null) {
+            productEntity = new ProductEntity();
             fabDeletar.setVisibility(View.INVISIBLE);
-        else {
+        } else {
+            carregaValores();
+
             fabDeletar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    deleteRegistroFechaTela();
+                    delete();
                 }
             });
         }
 
-        if (productEntity != null) {
-            carregaValores();
+    }
+
+    private void confirm() {
+        if (validation()) {
+            save();
         }
     }
 
-    private void confirmaTela() {
-        if (!validaTela())
-            return;
-
-        salvaRegistroFechaTela();
-    }
-
-    private boolean validaTela() {
-        boolean retorno = true;
-
+    private boolean validation() {
         if (etName.getText().toString().trim().length() == 0) {
-            tilName.setError("Informe o nome");
-            retorno = false;
+            ilName.setError("Informe o nome");
+            return false;
         }
 
         if (etBarcode.getText().toString().trim().length() == 0) {
-            tilBarcode.setError("Informe o código de barras");
-            retorno = false;
+            ilBarcode.setError("Informe o código de barras");
+            return false;
         }
 
-        return retorno;
+        return true;
     }
 
-    private void salvaRegistroFechaTela() {
+    private void save() {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
                 ProductDao productDao = DatabaseRoom.getInstance(getApplicationContext()).productDao();
 
-                if (productEntity == null) {
-                    ProductEntity productEntity = new ProductEntity();
-                    preencheValores();
-                    try {
-                        productDao.insert(productEntity);
+                fillValues();
 
-                        fechaTelaSucesso();
-                    } catch (SQLiteConstraintException ex) {
-                        PopupInformacao.mostraMensagem(NewProduct.this, handler, "Código já existe");
-                    }
-                } else {
-                    preencheValores();
-                    productDao.update(productEntity);
+                if (productEntity == null)
+                    add(productDao);
+                else
+                    update(productDao);
 
-                    fechaTelaSucesso();
+                closeActivity();
+            }
+        });
+    }
+
+    private void add(ProductDao productDao) {
+        try {
+            productDao.insert(productEntity);
+        } catch (SQLiteConstraintException ex) {
+            PopupInfo.mostraMensagem(NewProduct.this, handler, "Código já existe");
+        }
+    }
+
+    private void update(ProductDao productDao) {
+        productDao.update(productEntity);
+    }
+
+    private void delete() {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    DatabaseRoom.getInstance(getApplicationContext()).productDao().delete(productEntity);
+                    closeActivity();
+                } catch (SQLiteConstraintException ex) {
+                    PopupInfo.mostraMensagem(NewProduct.this, handler, "Erro ao remover");
                 }
             }
         });
     }
 
-    private void deleteRegistroFechaTela() {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                fechaTelaSucesso();
-            }
-        });
-    }
-
-    private void preencheValores() {
+    private void fillValues() {
         productEntity.setName(etName.getText().toString().trim());
         productEntity.setBarcode(etBarcode.getText().toString().trim());
     }
 
-    private void fechaTelaSucesso() {
+    private void closeActivity() {
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -186,5 +170,4 @@ public class NewProduct extends AppCompatActivity {
         etName.setText(productEntity.getName());
         etBarcode.setText(productEntity.getBarcode());
     }
-
 }

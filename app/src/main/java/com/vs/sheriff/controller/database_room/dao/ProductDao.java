@@ -12,7 +12,7 @@ import java.util.List;
 public interface ProductDao {
 
     @Query("select * from product order by id")
-    public List<ProductEntity> allProducts();
+    public List<ProductEntity> getAll();
 
     @Query("select * from product where id = :id")
     public ProductEntity selectById(Long id);

@@ -5,4 +5,9 @@
     <string name="name">Nome</string>
     <string name="productEntity">Produto</string>
     <string name="stock">Estoque</string>
+    <string name="access">Acessar</string>
+    <string name="email">Email</string>
+    <string name="password">Senha</string>
+    <string name="create_new_account">Criar uma conta</string>
+    <string name="new_account">Criar conta</string>
 </resources>

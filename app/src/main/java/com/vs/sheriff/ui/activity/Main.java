@@ -30,8 +30,7 @@ public class Main extends AppCompatActivity {
         product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent Product = new Intent(Main.this, ListProduct.class);
-                startActivity(Product);
+                startActivity(new Intent(Main.this, ListProduct.class));
             }
         });
     }

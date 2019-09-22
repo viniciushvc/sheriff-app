@@ -44,7 +44,7 @@ public class ListProduct extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ProductEntity item = (ProductEntity) lvInformacoes.getAdapter().getItem(position);
                 Intent intent = new Intent(ListProduct.this, NewProduct.class);
-                intent.putExtra(NewProduct.EXTRA_CODIGO, item.getId());
+                intent.putExtra(NewProduct.ID, item.getId());
                 startActivity(intent);
             }
         });
@@ -60,7 +60,7 @@ public class ListProduct extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                final List<ProductEntity> universidadeCidadeEntities = DatabaseRoom.getInstance(getApplicationContext()).productDao().allProducts();
+                final List<ProductEntity> universidadeCidadeEntities = DatabaseRoom.getInstance(getApplicationContext()).productDao().getAll();
                 lvInformacoes.post(new Runnable() {
                     @Override
                     public void run() {
