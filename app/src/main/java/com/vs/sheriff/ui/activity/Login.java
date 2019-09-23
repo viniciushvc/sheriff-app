@@ -85,8 +85,11 @@ public class Login extends AppCompatActivity {
 
                     UserEntity user = DatabaseRoom.getInstance(getApplicationContext()).userDao().login(email, password);
 
-                    if (user != null)
+                    if (user != null){
                         startActivity(new Intent(Login.this, Main.class));
+
+                        finish();
+                    }
                     else
                         PopupInfo.mostraMensagem(Login.this, handler, "Login inválido");
                 }
