@@ -4,6 +4,9 @@ import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,6 +19,8 @@ import com.vs.sheriff.controller.database_room.DatabaseRoom;
 import com.vs.sheriff.controller.database_room.dao.UserDao;
 import com.vs.sheriff.controller.database_room.entity.UserEntity;
 import com.vs.sheriff.ui.dialogs.PopupInfo;
+
+import java.util.regex.Pattern;
 
 public class NewLogin extends AppCompatActivity {
     public Handler handler = new Handler();
@@ -65,52 +70,115 @@ public class NewLogin extends AppCompatActivity {
         btCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                save();
-            }
-        });
-    }
-
-    private void save() {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
                 if (validation())
                     add();
+            }
+        });
+
+        etName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ilName.setError(null);
+            }
+        });
+
+        etEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ilEmail.setError(null);
+            }
+        });
+
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ilPassword.setError(null);
             }
         });
     }
 
     private void add() {
-        UserDao userDao = DatabaseRoom.getInstance(getApplicationContext()).userDao();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
 
-        fillValues();
 
-        try {
-            userDao.insert(userEntity);
+                UserDao userDao = DatabaseRoom.getInstance(getApplicationContext()).userDao();
 
-            closeActivity();
-        } catch (SQLiteConstraintException ex) {
-            PopupInfo.mostraMensagem(NewLogin.this, handler, "Email já cadastrado");
-        }
+                fillValues();
+
+                try {
+                    userDao.insert(userEntity);
+
+                    closeActivity();
+                } catch (SQLiteConstraintException ex) {
+                    PopupInfo.mostraMensagem(NewLogin.this, handler, "Email já cadastrado");
+                }
+            }
+        });
     }
 
     private boolean validation() {
         if (etName.getText().toString().trim().length() == 0) {
-            etEmail.requestFocus();
+            etName.requestFocus();
+            ilName.setError("Preencha seu nome");
             return false;
         }
 
         if (etEmail.getText().toString().trim().length() == 0) {
             etEmail.requestFocus();
+            ilEmail.setError("Preencha seu email");
             return false;
         }
 
-        if (etPassword.getText().toString().length() == 0) {
+        if (!validEmail(etEmail.getText().toString())) {
+            etEmail.requestFocus();
+            ilEmail.setError("Email inválido");
+            return false;
+        }
+
+        if (etPassword.getText().toString().trim().length() == 0) {
             etPassword.requestFocus();
+            ilPassword.setError("Preencha sua senha");
             return false;
         }
 
         return true;
+    }
+
+    private boolean validEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 
     private void fillValues() {

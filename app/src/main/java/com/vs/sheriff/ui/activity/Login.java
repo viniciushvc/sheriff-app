@@ -100,8 +100,8 @@ public class Login extends AppCompatActivity {
             return false;
         }
 
-        if (etEmail.getText().toString().length() == 0) {
-            etEmail.requestFocus();
+        if (etPassword.getText().toString().trim().length() == 0) {
+            etPassword.requestFocus();
             return false;
         }
 

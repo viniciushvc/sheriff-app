@@ -52,7 +52,7 @@
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fbOK"
+        android:id="@+id/fbConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -68,7 +68,7 @@
         android:layout_margin="16dp"
         app:backgroundTint="@color/colorRed"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/fbOK"
+        app:layout_constraintRight_toLeftOf="@id/fbConfirm"
         app:srcCompat="@drawable/ic_delete" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,11 +1,15 @@
 package com.vs.sheriff.ui.activity;
 
+import android.content.DialogInterface;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +33,9 @@ public class NewProduct extends AppCompatActivity {
     private TextInputLayout ilBarcode;
     private TextInputEditText etBarcode;
 
+    private FloatingActionButton fbConfirm;
+    private FloatingActionButton fbDelete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +51,7 @@ public class NewProduct extends AppCompatActivity {
                     @Override
                     public void run() {
                         initComponents();
+                        initEvents();
                     }
                 });
             }
@@ -62,10 +70,13 @@ public class NewProduct extends AppCompatActivity {
         ilBarcode = findViewById(R.id.ilBarcode);
         etBarcode = findViewById(R.id.etBarcode);
 
-        FloatingActionButton fabConfirmar = findViewById(R.id.fbOK);
-        FloatingActionButton fabDeletar = findViewById(R.id.fbDelete);
+        fbConfirm = findViewById(R.id.fbConfirm);
+        fbDelete = findViewById(R.id.fbDelete);
+    }
 
-        fabConfirmar.setOnClickListener(new View.OnClickListener() {
+    private void initEvents() {
+
+        fbConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 save();
@@ -74,11 +85,11 @@ public class NewProduct extends AppCompatActivity {
 
         if (productEntity == null) {
             productEntity = new ProductEntity();
-            fabDeletar.setVisibility(View.INVISIBLE);
+            fbDelete.setVisibility(View.INVISIBLE);
         } else {
-            carregaValores();
+            setValues();
 
-            fabDeletar.setOnClickListener(new View.OnClickListener() {
+            fbDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     delete();
@@ -86,6 +97,39 @@ public class NewProduct extends AppCompatActivity {
             });
         }
 
+        etName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ilName.setError(null);
+            }
+        });
+
+        etBarcode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ilBarcode.setError(null);
+            }
+        });
     }
 
     private boolean validation() {
@@ -135,17 +179,26 @@ public class NewProduct extends AppCompatActivity {
     }
 
     private void delete() {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    DatabaseRoom.getInstance(getApplicationContext()).productDao().delete(productEntity);
-                    closeActivity();
-                } catch (SQLiteConstraintException ex) {
-                    PopupInfo.mostraMensagem(NewProduct.this, handler, "Erro ao remover");
-                }
-            }
-        });
+        new AlertDialog.Builder(this)
+                .setMessage("Deseja remover o produto?")
+                .setCancelable(false)
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        AsyncTask.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    DatabaseRoom.getInstance(getApplicationContext()).productDao().delete(productEntity);
+                                    closeActivity();
+                                } catch (SQLiteConstraintException ex) {
+                                    PopupInfo.mostraMensagem(NewProduct.this, handler, "Erro ao remover");
+                                }
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("Não", null)
+                .show();
     }
 
     private void fillValues() {
@@ -162,7 +215,7 @@ public class NewProduct extends AppCompatActivity {
         });
     }
 
-    private void carregaValores() {
+    private void setValues() {
         etName.setText(productEntity.getName());
         etBarcode.setText(productEntity.getBarcode());
     }

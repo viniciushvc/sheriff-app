@@ -31,7 +31,7 @@
                 android:layout_height="150dp"
                 android:layout_weight="1"
                 android:backgroundTint="#fff"
-                android:drawableTop="@drawable/ic_add_blue"
+                android:drawableTop="@drawable/ic_product"
                 android:text="@string/productEntity" />
 
             <androidx.appcompat.widget.AppCompatButton
