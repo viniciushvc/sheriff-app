@@ -181,7 +181,7 @@ public class NewProduct extends AppCompatActivity {
     private void delete() {
         new AlertDialog.Builder(this)
                 .setMessage("Deseja remover o produto?")
-                .setCancelable(false)
+                .setCancelable(true)
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         AsyncTask.execute(new Runnable() {
