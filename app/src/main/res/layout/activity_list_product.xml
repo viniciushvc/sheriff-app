@@ -10,6 +10,8 @@
         android:id="@+id/listProduct"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
         tools:listitem="@layout/item_product" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
