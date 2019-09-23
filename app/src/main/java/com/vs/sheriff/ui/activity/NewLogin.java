@@ -58,11 +58,10 @@ public class NewLogin extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         ilPassword = findViewById(R.id.ilPassword);
         etPassword = findViewById(R.id.etPassword);
+        btCreateAccount = findViewById(R.id.btLogin);
     }
 
     private void initEvents() {
-        btCreateAccount = findViewById(R.id.btLogin);
-
         btCreateAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,16 +74,15 @@ public class NewLogin extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                if (validation()) {
-                    UserDao userDao = DatabaseRoom.getInstance(getApplicationContext()).userDao();
-
-                    add(userDao);
-                }
+                if (validation())
+                    add();
             }
         });
     }
 
-    private void add(UserDao userDao) {
+    private void add() {
+        UserDao userDao = DatabaseRoom.getInstance(getApplicationContext()).userDao();
+
         fillValues();
 
         try {
@@ -97,34 +95,28 @@ public class NewLogin extends AppCompatActivity {
     }
 
     private boolean validation() {
+        if (etName.getText().toString().trim().length() == 0) {
+            etEmail.requestFocus();
+            return false;
+        }
 
-//        if (etName.getText().toString().trim().length() == 0) {
-//            etEmail.requestFocus();
-//            return false;
-//        }
-//
-//        if (etEmail.getText().toString().trim().length() == 0) {
-//            etEmail.requestFocus();
-//            return false;
-//        }
-//
-//        if (etPassword.getText().toString().length() == 0) {
-//            etPassword.requestFocus();
-//            return false;
-//        }
+        if (etEmail.getText().toString().trim().length() == 0) {
+            etEmail.requestFocus();
+            return false;
+        }
+
+        if (etPassword.getText().toString().length() == 0) {
+            etPassword.requestFocus();
+            return false;
+        }
 
         return true;
     }
 
     private void fillValues() {
-
-        userEntity.setName("Vinicius");
-        userEntity.setEmail("viniciusvicentini@live.com");
-        userEntity.setPassword("123");
-
-//        userEntity.setName(etName.getText().toString().trim());
-//        userEntity.setEmail(etEmail.getText().toString().trim());
-//        userEntity.setPassword(etPassword.getText().toString().trim());
+        userEntity.setName(etName.getText().toString().trim());
+        userEntity.setEmail(etEmail.getText().toString().trim());
+        userEntity.setPassword(etPassword.getText().toString().trim());
     }
 
     private void closeActivity() {

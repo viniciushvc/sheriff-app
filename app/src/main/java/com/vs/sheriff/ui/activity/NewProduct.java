@@ -60,7 +60,7 @@ public class NewProduct extends AppCompatActivity {
         ilName = findViewById(R.id.ilName);
         etName = findViewById(R.id.etName);
         ilBarcode = findViewById(R.id.ilBarcode);
-        etBarcode = findViewById(R.id.etPassword);
+        etBarcode = findViewById(R.id.etBarcode);
 
         FloatingActionButton fabConfirmar = findViewById(R.id.fbOK);
         FloatingActionButton fabDeletar = findViewById(R.id.fbDelete);
@@ -68,7 +68,7 @@ public class NewProduct extends AppCompatActivity {
         fabConfirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirm();
+                save();
             }
         });
 
@@ -88,12 +88,6 @@ public class NewProduct extends AppCompatActivity {
 
     }
 
-    private void confirm() {
-        if (validation()) {
-            save();
-        }
-    }
-
     private boolean validation() {
         if (etName.getText().toString().trim().length() == 0) {
             ilName.setError("Informe o nome");
@@ -109,21 +103,23 @@ public class NewProduct extends AppCompatActivity {
     }
 
     private void save() {
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                ProductDao productDao = DatabaseRoom.getInstance(getApplicationContext()).productDao();
+        if (validation()) {
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    ProductDao productDao = DatabaseRoom.getInstance(getApplicationContext()).productDao();
 
-                fillValues();
+                    fillValues();
 
-                if (productEntity == null)
-                    add(productDao);
-                else
-                    update(productDao);
+                    if (productEntity.getId() == null)
+                        add(productDao);
+                    else
+                        update(productDao);
 
-                closeActivity();
-            }
-        });
+                    closeActivity();
+                }
+            });
+        }
     }
 
     private void add(ProductDao productDao) {

@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.vs.sheriff.R;
 import com.vs.sheriff.controller.adapters.ProductAdapter;
@@ -17,8 +19,8 @@ import java.util.List;
 
 public class ListProduct extends AppCompatActivity {
 
-    private ListView lvInformacoes;
-    private FloatingActionButton fabAdicionar;
+    private ListView listProduct;
+    private FloatingActionButton fbNew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,23 +28,26 @@ public class ListProduct extends AppCompatActivity {
         setContentView(R.layout.activity_list_product);
 
         initComponents();
+        initEvents();
     }
 
     private void initComponents() {
-        lvInformacoes = findViewById(R.id.lvInformacoes);
-        fabAdicionar = findViewById(R.id.fabAdicionar);
+        listProduct = findViewById(R.id.listProduct);
+        fbNew = findViewById(R.id.fbNew);
+    }
 
-        fabAdicionar.setOnClickListener(new View.OnClickListener() {
+    private void initEvents() {
+        fbNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ListProduct.this, NewProduct.class));
             }
         });
 
-        lvInformacoes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listProduct.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ProductEntity item = (ProductEntity) lvInformacoes.getAdapter().getItem(position);
+                ProductEntity item = (ProductEntity) listProduct.getAdapter().getItem(position);
                 Intent intent = new Intent(ListProduct.this, NewProduct.class);
                 intent.putExtra(NewProduct.ID, item.getId());
                 startActivity(intent);
@@ -60,11 +65,11 @@ public class ListProduct extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-                final List<ProductEntity> universidadeCidadeEntities = DatabaseRoom.getInstance(getApplicationContext()).productDao().getAll();
-                lvInformacoes.post(new Runnable() {
+                final List<ProductEntity> list = DatabaseRoom.getInstance(getApplicationContext()).productDao().getAll();
+                listProduct.post(new Runnable() {
                     @Override
                     public void run() {
-                        lvInformacoes.setAdapter(new ProductAdapter(ListProduct.this, universidadeCidadeEntities));
+                        listProduct.setAdapter(new ProductAdapter(ListProduct.this, list));
                     }
                 });
             }

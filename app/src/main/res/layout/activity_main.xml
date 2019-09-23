@@ -26,16 +26,16 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/product"
+                android:id="@+id/btProduct"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_weight="1"
                 android:backgroundTint="#fff"
-                android:drawableTop="@drawable/ic_add"
+                android:drawableTop="@drawable/ic_add_blue"
                 android:text="@string/productEntity" />
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnB"
+                android:id="@+id/btStock"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:layout_weight="1"

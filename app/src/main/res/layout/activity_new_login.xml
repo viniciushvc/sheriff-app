@@ -27,7 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name"
-                    android:inputType="text"
+                    android:inputType="textPersonName"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -69,9 +69,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="40dp"
-                android:backgroundTint="#4CAF50"
+                android:backgroundTint="@color/colorPrimary"
                 android:text="@string/new_account"
-                android:textColor="#FFFFFF" />
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 

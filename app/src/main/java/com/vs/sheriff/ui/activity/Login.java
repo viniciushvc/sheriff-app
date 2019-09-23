@@ -1,7 +1,9 @@
 package com.vs.sheriff.ui.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.vs.sheriff.ui.dialogs.PopupInfo;
 import com.vs.sheriff.ui.utils.OnSingleclickListener;
 
 public class Login extends AppCompatActivity {
+    public Handler handler = new Handler();
 
     private TextInputLayout ilEmail;
     private TextInputLayout ilPassword;
@@ -33,8 +36,18 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        initComponents();
-        initEvents();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        initComponents();
+                        initEvents();
+                    }
+                });
+            }
+        });
     }
 
     private void initComponents() {
@@ -42,12 +55,11 @@ public class Login extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         ilPassword = findViewById(R.id.ilPassword);
         etPassword = findViewById(R.id.etPassword);
+        btLogin = findViewById(R.id.btLogin);
+        tvNewAccount = findViewById(R.id.tvNewAccount);
     }
 
     private void initEvents() {
-        btLogin = findViewById(R.id.btLogin);
-        tvNewAccount = findViewById(R.id.tvNewAccount);
-
         btLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -55,7 +67,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        tvNewAccount.setOnClickListener(new OnSingleclickListener(){
+        tvNewAccount.setOnClickListener(new OnSingleclickListener() {
             @Override
             public void onSingleClick(View view) {
                 startActivity(new Intent(Login.this, NewLogin.class));
@@ -64,17 +76,21 @@ public class Login extends AppCompatActivity {
     }
 
     private void login() {
-
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
-
         if (validation()) {
-            UserEntity user = DatabaseRoom.getInstance(getApplicationContext()).userDao().login(email, password);
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    String email = etEmail.getText().toString();
+                    String password = etPassword.getText().toString();
 
-            if (user != null)
-                startActivity(new Intent(Login.this, Main.class));
-            else
-                PopupInfo.mostraMensagem(Login.this, "Login inválido");
+                    UserEntity user = DatabaseRoom.getInstance(getApplicationContext()).userDao().login(email, password);
+
+                    if (user != null)
+                        startActivity(new Intent(Login.this, Main.class));
+                    else
+                        PopupInfo.mostraMensagem(Login.this, handler, "Login inválido");
+                }
+            });
         }
     }
 
