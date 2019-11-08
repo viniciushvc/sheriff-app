@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "product")
 public class ProductEntity {
-
     @PrimaryKey(autoGenerate = true)
     private Long id;
 

@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user", indices = {@Index(value = {"email"}, unique = true)})
 public class UserEntity {
-
     @PrimaryKey(autoGenerate = true)
     private Long id;
 

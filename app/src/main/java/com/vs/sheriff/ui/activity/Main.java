@@ -44,7 +44,7 @@ public class Main extends AppCompatActivity {
         btStock.setOnClickListener(new OnSingleclickListener() {
             @Override
             public void onSingleClick(View view) {
-                PopupInfo.mostraMensagem(Main.this, handler, "Em breve");
+                startActivity(new Intent(Main.this, ListStock.class));
             }
         });
     }
