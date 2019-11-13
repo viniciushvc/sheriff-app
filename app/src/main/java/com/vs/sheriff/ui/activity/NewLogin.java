@@ -142,7 +142,7 @@ public class NewLogin extends AppCompatActivity {
 
                     closeActivity();
                 } catch (SQLiteConstraintException ex) {
-                    PopupInfo.mostraMensagem(NewLogin.this, handler, "Email já cadastrado");
+                    PopupInfo.showMessage(NewLogin.this, handler, "Email já cadastrado");
                 }
             }
         });

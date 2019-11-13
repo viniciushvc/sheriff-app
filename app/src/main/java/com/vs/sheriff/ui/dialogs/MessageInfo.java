@@ -13,7 +13,7 @@ public class MessageInfo extends DialogFragment {
     public static final String TITULO = "";
     public static final String MENSAGEM = "";
 
-    public static void mostraMensagem(AppCompatActivity activity, String titulo, String mensagem) {
+    public static void showMessage(AppCompatActivity activity, String titulo, String mensagem) {
         MessageInfo messageInfo = new MessageInfo();
         Bundle arguments = new Bundle();
         arguments.putString(TITULO, titulo);

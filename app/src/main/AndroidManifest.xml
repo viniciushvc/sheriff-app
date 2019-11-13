@@ -11,17 +11,18 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.NewStock"/>
         <activity android:name=".ui.activity.ListStock" >
+        </activity>
+        <activity android:name=".ui.activity.NewLogin" />
+        <activity android:name=".ui.activity.Login">
+
+        </activity>
+        <activity android:name=".ui.activity.Main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.NewLogin" />
-        <activity android:name=".ui.activity.Login">
-
-        </activity>
-        <activity android:name=".ui.activity.Main" />
         <activity android:name=".ui.activity.NewProduct" />
         <activity android:name=".ui.activity.ListProduct" />
     </application>

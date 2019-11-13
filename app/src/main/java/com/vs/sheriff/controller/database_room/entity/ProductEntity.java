@@ -1,6 +1,5 @@
 package com.vs.sheriff.controller.database_room.entity;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -9,11 +8,11 @@ public class ProductEntity {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
-    @ColumnInfo(name = "name")
     private String name;
 
-    @ColumnInfo(name = "barcode")
     private String barcode;
+
+    private String note;
 
     public Long getId() {
         return id;
@@ -37,5 +36,13 @@ public class ProductEntity {
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }

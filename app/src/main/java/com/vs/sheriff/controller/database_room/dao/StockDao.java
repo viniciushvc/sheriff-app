@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface StockDao {
 
-    @Query("select * from stock order by id")
+    @Query("select s.*, p.name as name_product from stock s, product p where s.id_product = p.id")
     public List<StockEntity> getAll();
 
     @Query("select * from stock where id = :id")

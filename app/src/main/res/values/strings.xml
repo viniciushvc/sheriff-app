@@ -13,4 +13,7 @@
     <string name="street">Rua</string>
     <string name="column">Coluna</string>
     <string name="floor">Andar</string>
+    <string name="product">Produto</string>
+    <string name="note">Observação</string>
+    <string name="Product">Produto</string>
 </resources>

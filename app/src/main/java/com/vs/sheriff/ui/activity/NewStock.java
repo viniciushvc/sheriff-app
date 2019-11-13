@@ -1,37 +1,40 @@
 package com.vs.sheriff.ui.activity;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.vs.sheriff.R;
 import com.vs.sheriff.controller.database_room.DatabaseRoom;
-import com.vs.sheriff.controller.database_room.dao.ProductDao;
+import com.vs.sheriff.controller.database_room.dao.StockDao;
 import com.vs.sheriff.controller.database_room.entity.ProductEntity;
+import com.vs.sheriff.controller.database_room.entity.StockEntity;
 import com.vs.sheriff.ui.dialogs.PopupInfo;
 
+import java.util.List;
+
 public class NewStock extends AppCompatActivity {
-    public Handler handler = new Handler();
-
-    private ProductEntity productEntity;
-
     public static final String ID = "";
 
-    private TextInputLayout ilName;
-    private TextInputEditText etName;
-    private TextInputLayout ilBarcode;
-    private TextInputEditText etBarcode;
+    public Handler handler = new Handler();
+
+    private StockEntity stockEntity;
+
+    private Spinner spProduct;
+    private TextInputEditText etStreet;
+    private TextInputEditText etFloor;
+    private TextInputEditText etColumn;
+    private TextInputEditText etNote;
 
     private FloatingActionButton fbConfirm;
     private FloatingActionButton fbDelete;
@@ -40,7 +43,7 @@ public class NewStock extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_new_product);
+        setContentView(R.layout.activity_new_stock);
 
         AsyncTask.execute(new Runnable() {
             @Override
@@ -52,6 +55,7 @@ public class NewStock extends AppCompatActivity {
                     public void run() {
                         initComponents();
                         initEvents();
+                        initProducts();
                     }
                 });
             }
@@ -61,14 +65,15 @@ public class NewStock extends AppCompatActivity {
     private void findProduct() {
         Long codigo = getIntent().getLongExtra(ID, -1);
 
-        productEntity = DatabaseRoom.getInstance(getApplicationContext()).productDao().selectById(codigo);
+        stockEntity = DatabaseRoom.getInstance(getApplicationContext()).stockDao().selectById(codigo);
     }
 
     private void initComponents() {
-        ilName = findViewById(R.id.ilName);
-        etName = findViewById(R.id.etName);
-        ilBarcode = findViewById(R.id.ilBarcode);
-        etBarcode = findViewById(R.id.etBarcode);
+        spProduct = findViewById(R.id.spProduct);
+        etStreet = findViewById(R.id.etStreet);
+        etFloor = findViewById(R.id.etFloor);
+        etColumn = findViewById(R.id.etColumn);
+        etNote = findViewById(R.id.etNote);
 
         fbConfirm = findViewById(R.id.fbConfirm);
         fbDelete = findViewById(R.id.fbDelete);
@@ -83,8 +88,8 @@ public class NewStock extends AppCompatActivity {
             }
         });
 
-        if (productEntity == null) {
-            productEntity = new ProductEntity();
+        if (stockEntity == null) {
+            stockEntity = new StockEntity();
             fbDelete.setVisibility(View.INVISIBLE);
         } else {
             setValues();
@@ -96,50 +101,32 @@ public class NewStock extends AppCompatActivity {
                 }
             });
         }
-
-        etName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                ilName.setError(null);
-            }
-        });
-
-        etBarcode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                ilBarcode.setError(null);
-            }
-        });
     }
 
-    private boolean validation() {
-        if (etName.getText().toString().trim().length() == 0) {
-            ilName.setError("Informe o nome");
-            return false;
-        }
+    private void initProducts() {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<ProductEntity> productEntity = DatabaseRoom.getInstance(getApplicationContext()).productDao().getAll();
+                productEntity.add(0, new ProductEntity());
+                spProduct.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayAdapter adapter = new ArrayAdapter(NewStock.this, android.R.layout.simple_spinner_item, productEntity);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spProduct.setAdapter(adapter);
+                    }
+                });
+            }
+        });
 
-        if (etBarcode.getText().toString().trim().length() == 0) {
-            ilBarcode.setError("Informe o código de barras");
+
+    }
+
+
+    private boolean validation() {
+        if (spProduct.getSelectedItemPosition() <= 0) {
+            PopupInfo.showMessage(this, "Selecione um produto");
             return false;
         }
 
@@ -151,14 +138,14 @@ public class NewStock extends AppCompatActivity {
             AsyncTask.execute(new Runnable() {
                 @Override
                 public void run() {
-                    ProductDao productDao = DatabaseRoom.getInstance(getApplicationContext()).productDao();
+                    StockDao stockDao = DatabaseRoom.getInstance(getApplicationContext()).stockDao();
 
                     fillValues();
 
-                    if (productEntity.getId() == null)
-                        add(productDao);
+                    if (stockEntity.getId() == null)
+                        add(stockDao);
                     else
-                        update(productDao);
+                        update(stockDao);
 
                     closeActivity();
                 }
@@ -166,21 +153,21 @@ public class NewStock extends AppCompatActivity {
         }
     }
 
-    private void add(ProductDao productDao) {
+    private void add(StockDao stockDao) {
         try {
-            productDao.insert(productEntity);
+            stockDao.insert(stockEntity);
         } catch (SQLiteConstraintException ex) {
-            PopupInfo.mostraMensagem(NewStock.this, handler, "Código já existe");
+            PopupInfo.showMessage(NewStock.this, handler, "Código já existe");
         }
     }
 
-    private void update(ProductDao productDao) {
-        productDao.update(productEntity);
+    private void update(StockDao stockDao) {
+        stockDao.update(stockEntity);
     }
 
     private void delete() {
         new AlertDialog.Builder(this)
-                .setMessage("Deseja remover o produto?")
+                .setMessage("Deseja remover do estoque?")
                 .setCancelable(true)
                 .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -188,10 +175,10 @@ public class NewStock extends AppCompatActivity {
                             @Override
                             public void run() {
                                 try {
-                                    DatabaseRoom.getInstance(getApplicationContext()).productDao().delete(productEntity);
+                                    DatabaseRoom.getInstance(getApplicationContext()).stockDao().delete(stockEntity);
                                     closeActivity();
                                 } catch (SQLiteConstraintException ex) {
-                                    PopupInfo.mostraMensagem(NewStock.this, handler, "Erro ao remover");
+                                    PopupInfo.showMessage(NewStock.this, handler, "Erro ao remover");
                                 }
                             }
                         });
@@ -202,8 +189,16 @@ public class NewStock extends AppCompatActivity {
     }
 
     private void fillValues() {
-        productEntity.setName(etName.getText().toString().trim());
-        productEntity.setBarcode(etBarcode.getText().toString().trim());
+        stockEntity.setStreet(etStreet.getText().toString().trim());
+        stockEntity.setFloor(etFloor.getText().toString().trim());
+        stockEntity.setColumn(etColumn.getText().toString().trim());
+        stockEntity.setColumn(etNote.getText().toString().trim());
+
+        for (int i = 1; i < spProduct.getCount(); i++) {
+            if (((ProductEntity) spProduct.getItemAtPosition(i)).getId().equals(new Long(stockEntity.getIdProduct()))) {
+                spProduct.setSelection(i, true);
+            }
+        }
     }
 
     private void closeActivity() {
@@ -216,8 +211,11 @@ public class NewStock extends AppCompatActivity {
     }
 
     private void setValues() {
-        etName.setText(productEntity.getName());
-        etBarcode.setText(productEntity.getBarcode());
+        spProduct.setSelection(stockEntity.getIdProduct(), true);
+        etStreet.setText(stockEntity.getStreet());
+        etFloor.setText(stockEntity.getFloor());
+        etColumn.setText(stockEntity.getColumn());
+        etNote.setText(stockEntity.getNote());
     }
 }
 

@@ -91,7 +91,7 @@ public class Login extends AppCompatActivity {
                         finish();
                     }
                     else
-                        PopupInfo.mostraMensagem(Login.this, handler, "Login inválido");
+                        PopupInfo.showMessage(Login.this, handler, "Login inválido");
                 }
             });
         }

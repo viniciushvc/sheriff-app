@@ -33,7 +33,7 @@ public class StockAdapter extends ArrayAdapter<StockEntity> {
             holder = new Holder();
             convertView.setTag(holder);
 
-            holder.tvId = convertView.findViewById(R.id.tvId);
+            holder.tvProduct = convertView.findViewById(R.id.tvProduct);
             holder.tvStreet = convertView.findViewById(R.id.tvStreet);
             holder.tvColumn = convertView.findViewById(R.id.tvName);
             holder.tvFloor = convertView.findViewById(R.id.tvFloor);
@@ -42,7 +42,7 @@ public class StockAdapter extends ArrayAdapter<StockEntity> {
         }
 
         StockEntity item = getItem(position);
-        holder.tvId.setText(item.getId().toString());
+        holder.tvProduct.setText(item.getNameProduct());
         holder.tvStreet.setText(item.getStreet());
         holder.tvColumn.setText(item.getColumn());
         holder.tvFloor.setText(item.getFloor());
@@ -51,7 +51,7 @@ public class StockAdapter extends ArrayAdapter<StockEntity> {
     }
 
     private class Holder {
-        private TextView tvId;
+        private TextView tvProduct;
         private TextView tvStreet;
         private TextView tvColumn;
         private TextView tvFloor;

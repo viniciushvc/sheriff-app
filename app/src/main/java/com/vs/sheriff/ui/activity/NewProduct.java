@@ -170,7 +170,7 @@ public class NewProduct extends AppCompatActivity {
         try {
             productDao.insert(productEntity);
         } catch (SQLiteConstraintException ex) {
-            PopupInfo.mostraMensagem(NewProduct.this, handler, "Código já existe");
+            PopupInfo.showMessage(NewProduct.this, handler, "Código já existe");
         }
     }
 
@@ -191,7 +191,7 @@ public class NewProduct extends AppCompatActivity {
                                     DatabaseRoom.getInstance(getApplicationContext()).productDao().delete(productEntity);
                                     closeActivity();
                                 } catch (SQLiteConstraintException ex) {
-                                    PopupInfo.mostraMensagem(NewProduct.this, handler, "Erro ao remover");
+                                    PopupInfo.showMessage(NewProduct.this, handler, "Erro ao remover");
                                 }
                             }
                         });

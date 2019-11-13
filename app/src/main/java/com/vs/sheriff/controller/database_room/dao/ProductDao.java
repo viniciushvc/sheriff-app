@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface ProductDao {
 
-    @Query("select * from product order by id")
+    @Query("select * from product order by name")
     public List<ProductEntity> getAll();
 
     @Query("select * from product where id = :id")

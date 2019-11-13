@@ -2,22 +2,27 @@ package com.vs.sheriff.controller.database_room.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "stock")
 public class StockEntity {
+
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
-    @ColumnInfo(name = "street")
     private String street;
 
-    @ColumnInfo(name = "floor")
     private String floor;
 
-    @ColumnInfo(name = "column")
     private String column;
+
+    @ColumnInfo(name = "id_product")
+    private int idProduct;
+
+    @ColumnInfo(name = "name_product")
+    private String nameProduct;
+
+    private String note;
 
     public Long getId() {
         return id;
@@ -49,5 +54,29 @@ public class StockEntity {
 
     public void setColumn(String column) {
         this.column = column;
+    }
+
+    public int getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(int idProduct) {
+        this.idProduct = idProduct;
+    }
+
+    public String getNameProduct() {
+        return nameProduct;
+    }
+
+    public void setNameProduct(String nameProduct) {
+        this.nameProduct = nameProduct;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 }
