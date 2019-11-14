@@ -1,5 +1,6 @@
 package com.vs.sheriff.controller.database_room.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -44,5 +45,11 @@ public class ProductEntity {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return (name != null ? getName() : "Selecione Produto");
     }
 }

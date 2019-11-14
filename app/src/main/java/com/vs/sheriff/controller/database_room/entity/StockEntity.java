@@ -1,5 +1,6 @@
 package com.vs.sheriff.controller.database_room.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -17,7 +18,7 @@ public class StockEntity {
     private String column;
 
     @ColumnInfo(name = "id_product")
-    private int idProduct;
+    private Long idProduct;
 
     @ColumnInfo(name = "name_product")
     private String nameProduct;
@@ -56,11 +57,11 @@ public class StockEntity {
         this.column = column;
     }
 
-    public int getIdProduct() {
+    public Long getIdProduct() {
         return idProduct;
     }
 
-    public void setIdProduct(int idProduct) {
+    public void setIdProduct(Long idProduct) {
         this.idProduct = idProduct;
     }
 

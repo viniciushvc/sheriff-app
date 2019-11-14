@@ -54,7 +54,6 @@ public class NewStock extends AppCompatActivity {
                     @Override
                     public void run() {
                         initComponents();
-                        initEvents();
                         initProducts();
                     }
                 });
@@ -115,14 +114,17 @@ public class NewStock extends AppCompatActivity {
                         ArrayAdapter adapter = new ArrayAdapter(NewStock.this, android.R.layout.simple_spinner_item, productEntity);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spProduct.setAdapter(adapter);
+                        spProduct.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                initEvents();
+                            }
+                        });
                     }
                 });
             }
         });
-
-
     }
-
 
     private boolean validation() {
         if (spProduct.getSelectedItemPosition() <= 0) {
@@ -192,13 +194,9 @@ public class NewStock extends AppCompatActivity {
         stockEntity.setStreet(etStreet.getText().toString().trim());
         stockEntity.setFloor(etFloor.getText().toString().trim());
         stockEntity.setColumn(etColumn.getText().toString().trim());
-        stockEntity.setColumn(etNote.getText().toString().trim());
+        stockEntity.setNote(etNote.getText().toString().trim());
 
-        for (int i = 1; i < spProduct.getCount(); i++) {
-            if (((ProductEntity) spProduct.getItemAtPosition(i)).getId().equals(new Long(stockEntity.getIdProduct()))) {
-                spProduct.setSelection(i, true);
-            }
-        }
+        stockEntity.setIdProduct(((ProductEntity)spProduct.getSelectedItem()).getId());
     }
 
     private void closeActivity() {
@@ -211,11 +209,16 @@ public class NewStock extends AppCompatActivity {
     }
 
     private void setValues() {
-        spProduct.setSelection(stockEntity.getIdProduct(), true);
         etStreet.setText(stockEntity.getStreet());
         etFloor.setText(stockEntity.getFloor());
         etColumn.setText(stockEntity.getColumn());
         etNote.setText(stockEntity.getNote());
+
+        for (int i = 1; i < spProduct.getCount(); i++) {
+            if (((ProductEntity) spProduct.getItemAtPosition(i)).getId().equals(stockEntity.getIdProduct())) {
+                spProduct.setSelection(i, true);
+            }
+        }
     }
 }
 

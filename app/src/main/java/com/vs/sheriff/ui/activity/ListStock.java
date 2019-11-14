@@ -66,6 +66,7 @@ public class ListStock extends AppCompatActivity {
             @Override
             public void run() {
                 final List<StockEntity> list = DatabaseRoom.getInstance(getApplicationContext()).stockDao().getAll();
+
                 listStock.post(new Runnable() {
                     @Override
                     public void run() {
