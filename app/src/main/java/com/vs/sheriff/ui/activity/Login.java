@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.vs.sheriff.R;
 import com.vs.sheriff.controller.database_room.DatabaseRoom;
 import com.vs.sheriff.controller.database_room.entity.UserEntity;
@@ -20,9 +19,6 @@ import com.vs.sheriff.ui.utils.OnSingleclickListener;
 
 public class Login extends AppCompatActivity {
     public Handler handler = new Handler();
-
-    private TextInputLayout ilEmail;
-    private TextInputLayout ilPassword;
 
     private TextInputEditText etEmail;
     private TextInputEditText etPassword;
@@ -51,9 +47,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void initComponents() {
-        ilEmail = findViewById(R.id.ilEmail);
         etEmail = findViewById(R.id.etEmail);
-        ilPassword = findViewById(R.id.ilPassword);
         etPassword = findViewById(R.id.etPassword);
         btLogin = findViewById(R.id.btLogin);
         tvNewAccount = findViewById(R.id.tvNewAccount);
@@ -85,12 +79,11 @@ public class Login extends AppCompatActivity {
 
                     UserEntity user = DatabaseRoom.getInstance(getApplicationContext()).userDao().login(email, password);
 
-                    if (user != null){
+                    if (user != null) {
                         startActivity(new Intent(Login.this, Main.class));
 
                         finish();
-                    }
-                    else
+                    } else
                         PopupInfo.showMessage(Login.this, handler, "Login inválido");
                 }
             });
@@ -110,5 +103,4 @@ public class Login extends AppCompatActivity {
 
         return true;
     }
-
 }

@@ -14,10 +14,10 @@ import java.util.List;
 public interface StockDao {
 
     @Query("select s.*, p.name as name_product from stock s, product p where s.id_product = p.id")
-    public List<StockEntity> getAll();
+    List<StockEntity> getAll();
 
     @Query("select * from stock where id = :id")
-    public StockEntity selectById(Long id);
+    StockEntity selectById(Long id);
 
     @Insert
     void insert(StockEntity stockEntity);
