@@ -8,7 +8,6 @@
     tools:context=".ui.activity.Main">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -33,7 +32,8 @@
                 android:backgroundTint="#fff"
                 android:drawableTop="@drawable/ic_product"
                 android:paddingTop="25dp"
-                android:text="@string/productEntity" />
+                android:text="@string/Product"
+                tools:ignore="ButtonStyle" />
 
             <Button
                 android:id="@+id/btStock"
@@ -43,7 +43,37 @@
                 android:backgroundTint="#fff"
                 android:drawableTop="@drawable/ic_storage"
                 android:paddingTop="25dp"
-                android:text="@string/stock" />
+                android:text="@string/Stock"
+                tools:ignore="ButtonStyle" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btWithdraw"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:backgroundTint="#fff"
+                android:drawableTop="@drawable/ic_account"
+                android:paddingTop="25dp"
+                android:text="@string/Profile"
+                tools:ignore="ButtonStyle" />
+
+            <Button
+                android:id="@+id/btExit"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:backgroundTint="#fff"
+                android:drawableTop="@drawable/ic_exit"
+                android:paddingTop="25dp"
+                android:text="@string/Exit"
+                tools:ignore="ButtonStyle" />
 
         </LinearLayout>
 

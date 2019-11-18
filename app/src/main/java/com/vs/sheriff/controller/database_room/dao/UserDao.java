@@ -3,6 +3,7 @@ package com.vs.sheriff.controller.database_room.dao;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.vs.sheriff.controller.database_room.entity.UserEntity;
 
@@ -14,4 +15,7 @@ public interface UserDao {
 
     @Insert
     void insert(UserEntity productEntity);
+
+    @Update
+    void update(UserEntity productEntity);
 }

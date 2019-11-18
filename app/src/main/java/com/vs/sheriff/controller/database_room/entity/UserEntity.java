@@ -1,6 +1,5 @@
 package com.vs.sheriff.controller.database_room.entity;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -10,13 +9,10 @@ public class UserEntity {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
-    @ColumnInfo(name = "name")
     private String name;
 
-    @ColumnInfo(name = "email")
     private String email;
 
-    @ColumnInfo(name = "password")
     private String password;
 
     public Long getId() {

@@ -10,14 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 public class MessageInfo extends DialogFragment {
-    public static final String TITULO = "";
-    public static final String MENSAGEM = "";
+    private static final String TITLE = "";
+    private static final String MESSAGE = "";
 
     public static void showMessage(AppCompatActivity activity, String titulo, String mensagem) {
         MessageInfo messageInfo = new MessageInfo();
         Bundle arguments = new Bundle();
-        arguments.putString(TITULO, titulo);
-        arguments.putString(MENSAGEM, mensagem);
+        arguments.putString(TITLE, titulo);
+        arguments.putString(MESSAGE, mensagem);
         messageInfo.setArguments(arguments);
         messageInfo.show(activity.getSupportFragmentManager(), MessageInfo.class.toString());
     }
@@ -25,12 +25,12 @@ public class MessageInfo extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        getArguments().getString(TITULO);
-        getArguments().getString(MENSAGEM);
+        getArguments().getString(TITLE);
+        getArguments().getString(MESSAGE);
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-        builder.setTitle(getArguments().getString(TITULO));
-        builder.setMessage(getArguments().getString(MENSAGEM));
+        builder.setTitle(getArguments().getString(TITLE));
+        builder.setMessage(getArguments().getString(MESSAGE));
         builder.setPositiveButton("OK", null);
 
         return builder.create();

@@ -1,6 +1,7 @@
 package com.vs.sheriff.ui.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +16,7 @@ import com.vs.sheriff.R;
 import com.vs.sheriff.controller.database_room.DatabaseRoom;
 import com.vs.sheriff.controller.database_room.entity.UserEntity;
 import com.vs.sheriff.ui.dialogs.PopupInfo;
-import com.vs.sheriff.ui.utils.OnSingleclickListener;
+import com.vs.sheriff.ui.utils.OnSingleClickListener;
 
 public class Login extends AppCompatActivity {
     public Handler handler = new Handler();
@@ -40,6 +41,7 @@ public class Login extends AppCompatActivity {
                     public void run() {
                         initComponents();
                         initEvents();
+                        getUserLogin();
                     }
                 });
             }
@@ -61,12 +63,26 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        tvNewAccount.setOnClickListener(new OnSingleclickListener() {
+        tvNewAccount.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
                 startActivity(new Intent(Login.this, NewLogin.class));
             }
         });
+    }
+
+    private void saveUserLogin(String user){
+        SharedPreferences sharedPreferences = getSharedPreferences("userLogin", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("USER", user);
+        editor.apply();
+    }
+
+    private void getUserLogin(){
+        SharedPreferences sharedPreferences = getSharedPreferences("userLogin", MODE_PRIVATE);
+        String usuario = sharedPreferences.getString("USER", "");
+
+        etEmail.setText(usuario);
     }
 
     private void login() {
@@ -80,6 +96,8 @@ public class Login extends AppCompatActivity {
                     UserEntity user = DatabaseRoom.getInstance(getApplicationContext()).userDao().login(email, password);
 
                     if (user != null) {
+                        saveUserLogin(user.getEmail());
+
                         startActivity(new Intent(Login.this, Main.class));
 
                         finish();

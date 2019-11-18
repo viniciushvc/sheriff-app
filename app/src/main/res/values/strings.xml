@@ -1,19 +1,22 @@
 <resources>
     <string name="app_name" translatable="false">Sheriff</string>
-    <string name="save">Salvar</string>
-    <string name="barcode">Código de barras</string>
-    <string name="name">Nome</string>
-    <string name="productEntity">Produto</string>
-    <string name="stock">Estoque</string>
-    <string name="access">Acessar</string>
-    <string name="email">Email</string>
-    <string name="password">Senha</string>
-    <string name="create_new_account">Criar uma conta</string>
-    <string name="new_account">Criar conta</string>
-    <string name="street">Rua</string>
-    <string name="column">Coluna</string>
+    <string name="Save">Salvar</string>
+    <string name="Barcode">Código de barras</string>
+    <string name="Name">Nome</string>
+    <string name="Stock">Estoque</string>
+    <string name="Access">Acessar</string>
+    <string name="Email">Email</string>
+    <string name="Password">Senha</string>
+    <string name="Create_new_account">Criar uma conta</string>
+    <string name="New_account">Criar conta</string>
+    <string name="Street">Rua</string>
+    <string name="Column">Coluna</string>
     <string name="floor">Andar</string>
-    <string name="product">Produto</string>
-    <string name="note">Observação</string>
     <string name="Product">Produto</string>
+    <string name="Note">Observação</string>
+    <string name="Exit">Sair</string>
+    <string name="Withdraw">Retirar</string>
+    <string name="CPF">CPF</string>
+    <string name="Confirm_password">Confirmar senha</string>
+    <string name="Profile">Perfil</string>
 </resources>

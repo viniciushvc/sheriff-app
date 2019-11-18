@@ -131,8 +131,6 @@ public class NewLogin extends AppCompatActivity {
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
-
-
                 UserDao userDao = DatabaseRoom.getInstance(getApplicationContext()).userDao();
 
                 fillValues();

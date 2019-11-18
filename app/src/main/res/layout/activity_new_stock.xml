@@ -20,7 +20,7 @@
                 android:id="@+id/spProduct"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/product"
+                android:hint="@string/Product"
                 android:minHeight="48dp"
                 android:prompt="@string/Product" />
 
@@ -34,8 +34,8 @@
                     android:id="@+id/etStreet"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/street"
-                    android:inputType="number"
+                    android:hint="@string/Street"
+                    android:inputType="text"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -51,7 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/floor"
-                    android:inputType="number"
+                    android:inputType="text"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -66,8 +66,8 @@
                     android:id="@+id/etColumn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/column"
-                    android:inputType="number"
+                    android:hint="@string/Column"
+                    android:inputType="text"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -82,8 +82,8 @@
                     android:id="@+id/etNote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/note"
-                    android:inputType="number"
+                    android:hint="@string/Note"
+                    android:inputType="text"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
