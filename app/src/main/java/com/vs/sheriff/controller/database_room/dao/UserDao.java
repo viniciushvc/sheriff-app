@@ -13,6 +13,9 @@ public interface UserDao {
     @Query("select * from user where email = :email and password = :password")
     UserEntity login(String email, String password);
 
+    @Query("select * from user where id = :id")
+    UserEntity selectById(Long id);
+
     @Insert
     void insert(UserEntity productEntity);
 

@@ -14,13 +14,7 @@
 
         <activity
             android:name=".ui.activity.Main"
-            android:label="Sheriff">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:label="Sheriff" />
 
         <activity
             android:name=".ui.activity.ListStock"
@@ -36,7 +30,13 @@
 
         <activity
             android:name=".ui.activity.Login"
-            android:label="Acessar" />
+            android:label="Sheriff">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.activity.ListProduct"

@@ -71,10 +71,11 @@ public class Login extends AppCompatActivity {
         });
     }
 
-    private void saveUserLogin(String user){
+    private void saveUserLogin(String user, Long id){
         SharedPreferences sharedPreferences = getSharedPreferences("userLogin", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("USER", user);
+        editor.putString("ID", id.toString());
         editor.apply();
     }
 
@@ -96,7 +97,7 @@ public class Login extends AppCompatActivity {
                     UserEntity user = DatabaseRoom.getInstance(getApplicationContext()).userDao().login(email, password);
 
                     if (user != null) {
-                        saveUserLogin(user.getEmail());
+                        saveUserLogin(user.getEmail(), user.getId());
 
                         startActivity(new Intent(Login.this, Main.class));
 
